@@ -1,0 +1,11 @@
+{
+  "navigationBarTitleText": "",
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "index": "/takeouter/stokefood/stokefood",
+    "search": "/pages/index/index",
+    "cases": "/pages/mart/mart",
+    "news": "/takeouter/takeouterorder/takeouterorder",
+    "me": "/pages/my/my"
+  }
+}
