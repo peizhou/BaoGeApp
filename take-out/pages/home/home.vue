@@ -55,10 +55,33 @@
 				</navigator> -->
 			</view>
 		</view>
+		
+		
+		<uni-popup ref="popup3" :type="type2" :animation="true" :maskClick="false" @change="change">
+			<view style="padding: 50px; background-color: #fff;">
+				<view class="code-section" style="">
+					<view style="font-size: 60rpx;">请绑定手机号</view>
+					<input type="number" style="height: 100rpx;
+						background-color: #666666; 
+						color: white;
+						" :value="userphone" @input="onInput"/>
+					<view class="user-form">
+						
+						<button type="primary" style="margin-top: 120rpx; height: 80rpx; width: 300rpx;" @click="close2">确认</button>
+						
+					</view>
+					<view style="height: 60rpx; "></view>
+					<view class="tips">注意：绑定后将不可修改</view>
+				</view>
+			</view>
+		</uni-popup>
 	</view>
 </template>
 
 <script>
+	import {
+			bindUserPhone
+		} from '../../api/api.js'
 	export default {
 		data() {
 			return {
@@ -68,10 +91,37 @@
 					"http://preview.qiantucdn.com/58pic/39/70/82/47058PICm3mXPf5d3J7u3_PIC2018.jpg!qt324_nowater_jpg",
 					"http://preview.qiantucdn.com/58pic/39/69/68/67658PIC695tM600ciW6p_PIC2018.jpg!qt324_nowater_jpg",
 					"http://preview.qiantucdn.com/58pic/40/48/01/33M58PICfW3ctbmQvUh6z_origin_PIC2018.jpg!qt324_nowater_jpg"
-				]
+				],
+				type2: 'center',
+				userphone: ''
+			}
+		},
+		onShow() {
+			if(!uni.getStorageSync('userphone'))
+			{
+				console.log("???")
+				this.$refs['popup3'].open();
 			}
 		},
 		methods: {
+			onInput(e) {this.userphone=e.detail.value},
+			close2() {
+				
+				uni.setStorageSync('userphone',this.userphone);
+				let data = {
+					userId: uni.getStorageSync("id"),
+					phone: this.userphone
+				}
+				bindUserPhone(data).then((result) => {
+								if (result.code == "200") {
+									console.log("good!")
+								}
+							})
+				
+				
+				this.$refs['popup3'].close();
+				
+			},
 		}
 	}
 </script>
@@ -223,6 +273,46 @@
 				top: 0;
 				bottom: 0;
 				border-left: 1rpx solid rgba($color: $border-color, $alpha: 0.6);
+			}
+		}
+	}
+	
+	.code-section {
+		flex: 1;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		font-size: $font-size-base;
+		color: $font-size-base;
+		
+		.tips {
+			font-size: $font-size-sm;
+			color: $text-color-assist;
+		}
+	}
+	.user-form {
+		.form-item {
+			width: 100%;
+			display: flex;
+			align-items: center;
+			
+			.label {
+				width: 160rpx;
+			}
+			
+			input {
+				flex: 1;
+			}
+			
+			.radio {
+				display: flex;
+				margin-right: 50rpx;
+				image {
+					width: 40rpx;
+					height: 40rpx;
+					margin-right: 20rpx;
+				}
 			}
 		}
 	}

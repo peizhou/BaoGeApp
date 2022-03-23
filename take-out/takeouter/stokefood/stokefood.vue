@@ -8,7 +8,7 @@
 				<view class="username">存餐</view>
 			</view>
 			<view v-if="show1" class="code-section">
-				<view class="mb-20">请输入4位存餐号码</view>
+				<view class="mb-20">请输入11位存餐号码(手机号)</view>
 				<!-- qrcode begin -->
 <!-- 				<canvas canvas-id="memberCode" style="width: 350rpx; height: 350rpx;"></canvas>
  -->				<!-- qrcode end -->
@@ -19,10 +19,17 @@
 						<input type="number" style="height: 100rpx;
 							background-color: #666666; 
 							color: white;
-							" />
+							" :value="phone" @input="changephone"/>
+						
 						
 					</view>
-					
+					<view class="mb-20">请指定取餐柜编号</view>
+					<view class="form-item">
+					<input type="number" style="height: 100rpx;
+						background-color: #666666; 
+						color: white;
+						" :value="cabinet" @input="changecabinet"/>
+					</view>	
 					<button type="primary" style="margin-top: 20rpx; height: 80rpx" @click="buttonclick1">确认</button>
 				
 				</view>
@@ -43,7 +50,7 @@
 						<input type="number" style="height: 100rpx;
 							background-color: #666666; 
 							color: white;
-							" />
+							" :value="phone" />
 						
 					</view>
 					
@@ -62,11 +69,16 @@
 					<view class="code-section" style="">
 						<view style="font-size: 60rpx;">外卖柜号</view>
 						<view class="uni-list-cell-db">
-						    <picker style="z-index: 20000; height: 100rpx;
+						    <!-- <picker style="z-index: 20000; height: 100rpx;
 							background-color: #666666; 
 							color: white; width: 300rpx;" @change="bindPickerChange" :value="index" :range="array">
 						        <view class="uni-input" style="text-align: center;font-size: 60rpx;">{{array[index]}}</view>
-						    </picker>
+						    </picker> -->
+							<view style="z-index: 20000; height: 100rpx;
+							background-color: #666666; 
+							color: white; width: 300rpx;" >
+							    <view class="uni-input" style="text-align: center;font-size: 60rpx;">{{cabinet}}柜 {{ msg }}格</view>
+							</view>
 						</view>
 						<view class="user-form">
 							
@@ -74,7 +86,8 @@
 							
 						</view>
 						<view style="height: 60rpx; "></view>
-						<view class="tips">注意：选择并点击确定后，外卖柜将打开</view>
+						<!-- <view class="tips">注意：选择并点击确定后，外卖柜将打开</view> -->
+						<view class="tips">注意：存餐后请关闭柜门！</view>
 					</view>
 				</view>
 			</uni-popup>
@@ -94,6 +107,8 @@
 				</view>
 			</uni-popup>
 			
+			
+			
 		</view>
 	</view>
 </template>
@@ -103,7 +118,11 @@
 	import uniNavBar from '@/components/uni-nav-bar/uni-nav-bar.vue'
 	import listCell from '@/components/list-cell/list-cell.vue'
 	import modal from '@/components/modal/modal.vue'
-	
+	import {
+			makeOrder,
+			takefoodMessage,
+			closeCabinetByMan
+		} from '../../api/api.js'
 	export default {
 		components: {
 			uniNavBar,
@@ -112,15 +131,25 @@
 		},
 		data() {
 			return {
-				type: 'top',
-				type2: 'top',
+				type: 'center',
+				type2: 'center',
 				show1: true,
 				show2: false,
 				array: ['请选择', '1', '2', '3'],
-				index: 0
+				index: 0,
+				phone: "",
+				msg: "",
+				cabinet: "1"
+				
 			}
 		},
+		onLoad() {
+			
+		},
 		onShow() {
+			
+			
+			
 			let i = 1
 			this.makeMemberCode(i)
 			
@@ -130,12 +159,20 @@
 			}, 30000)
 		},
 		methods: {
+			changephone(e) {
+				this.phone = e.detail.value;
+				console.log(this.phone);
+			},
+			changecabinet(e) {
+				this.cabinet = e.detail.value;
+				console.log(this.cabinet);
+			},
 			open() {
 				uni.showLoading({
 				    title: '存餐完毕请关闭柜门！'
 				});
 				//等待柜门关闭
-				
+				this.$refs['popup'].close();
 				uni.hideLoading();
 				this.close();
 				this.toggle2('center');
@@ -164,18 +201,25 @@
 			},
 			buttonclick1() {
 				console.log(123);
-				let test = 1;
-				if (test == 1) {//("接口回传数据是--》只有一个外卖"
-					this.toggle('center');
-				} else if(test == 2) {
-					uni.showToast({
-						icon:'error',
-						title:'您有多个外卖取件，请输入完整手机号再取餐'
-					})
-					this.show1 = false;
-					this.show2 = true;
-					
+				let that = this;
+				console.log(this.phone);
+				let data = {
+					cabinet_id: this.cabinet,
+				    phone: this.phone
 				}
+
+				makeOrder(data).then((result) => {
+					if (result.code == "200") {
+						console.log(result.data);
+						that.cabinet = result.data.cabinetId
+						that.msg = result.data.doorNum;
+						this.toggle('center');
+					} else {
+						that.msg = result.msg;
+						this.toggle('center');
+					}
+				})
+				
 			},
 			
 			toggle(type) {
@@ -183,7 +227,16 @@
 						this.$refs['popup'].open();
 			},
 			close() {
-				this.$refs['popup'].close();
+				let data = {
+					cabinet_id: this.cabinet,
+					cabinet_doorNum: this.msg
+				}
+				closeCabinetByMan(data).then((result) => {
+					if (result.code == "200") {
+						this.$refs['popup'].close();
+						}
+				})
+				
 			},
 			buttonclick2() {
 				this.toggle2('center');
@@ -194,11 +247,27 @@
 			},
 			close2() {
 				//发短信接口
-				this.$refs['popup2'].close();
-				uni.showToast({
-					icon:'success',
-					title:'发送成功'
+				let data = {
+					cabinet_doorNum: uni.getStorageSync('id'),
+				    phone: uni.getStorageSync('userphone')
+				}
+				takefoodMessage(data).then((result) => {
+					if (result.code == "200") {
+						this.$refs['popup2'].close();
+						uni.showToast({
+							icon:'success',
+							title:'发送成功'
+						})
+					} else {
+						this.$refs['popup2'].close();
+						uni.showToast({
+							icon:'error',
+							title:'发送失败'
+						})
+					}
 				})
+				
+				
 			},
 		}
 	}

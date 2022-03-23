@@ -82,7 +82,7 @@ var components
 try {
   components = {
     uniPopup: function() {
-      return Promise.all(/*! import() | components/uni-popup/uni-popup */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/uni-popup/uni-popup")]).then(__webpack_require__.bind(null, /*! @/components/uni-popup/uni-popup.vue */ 353))
+      return Promise.all(/*! import() | components/uni-popup/uni-popup */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/uni-popup/uni-popup")]).then(__webpack_require__.bind(null, /*! @/components/uni-popup/uni-popup.vue */ 266))
     }
   }
 } catch (e) {
@@ -240,7 +240,26 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var _uqrcode = _interopRequireDefault(__webpack_require__(/*! @/common/uqrcode */ 119));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} //
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var _uqrcode = _interopRequireDefault(__webpack_require__(/*! @/common/uqrcode */ 119));
+
+
+
+var _api = __webpack_require__(/*! ../../api/api.js */ 36);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} //
 //
 //
 //
@@ -340,10 +359,57 @@ var _uqrcode = _interopRequireDefault(__webpack_require__(/*! @/common/uqrcode *
 //
 //
 //
-var uniNavBar = function uniNavBar() {__webpack_require__.e(/*! require.ensure | components/uni-nav-bar/uni-nav-bar */ "components/uni-nav-bar/uni-nav-bar").then((function () {return resolve(__webpack_require__(/*! @/components/uni-nav-bar/uni-nav-bar.vue */ 322));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var listCell = function listCell() {__webpack_require__.e(/*! require.ensure | components/list-cell/list-cell */ "components/list-cell/list-cell").then((function () {return resolve(__webpack_require__(/*! @/components/list-cell/list-cell.vue */ 266));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var modal = function modal() {__webpack_require__.e(/*! require.ensure | components/modal/modal */ "components/modal/modal").then((function () {return resolve(__webpack_require__(/*! @/components/modal/modal.vue */ 329));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default = { components: { uniNavBar: uniNavBar, listCell: listCell, modal: modal }, data: function data() {return { type: 'top', type2: 'top', show1: true, show2: false, array: ['请选择', '1', '2', '3'], index: 0 };}, onShow: function onShow() {var _this = this;var i = 1;this.makeMemberCode(i);setInterval(function () {i++;_this.makeMemberCode(i);}, 30000);}, methods: { open: function open() {uni.showLoading({ title: '存餐完毕请关闭柜门！' }); //等待柜门关闭
-      uni.hideLoading();this.close();this.toggle2('center');}, back: function back() {uni.navigateBack();}, bindPickerChange: function bindPickerChange(e) {console.log('picker发送选择改变，携带值为', e.target.value);this.index = e.target.value;}, makeMemberCode: function makeMemberCode(i) {_uqrcode.default.make({ canvasId: 'memberCode', componentInstance: this, text: "memberCode".concat(i), size: uni.upx2px(350), margin: 20, backgroundColor: '#ffffff', foregroundColor: '#000000', fileType: 'jpg', correctLevel: _uqrcode.default.defaults.correctLevel, success: function success(res) {} });}, buttonclick1: function buttonclick1() {console.log(123);var test = 1;if (test == 1) {//("接口回传数据是--》只有一个外卖"
-        this.toggle('center');} else if (test == 2) {uni.showToast({ icon: 'error', title: '您有多个外卖取件，请输入完整手机号再取餐' });this.show1 = false;this.show2 = true;}}, toggle: function toggle(type) {this.type = type;this.$refs['popup'].open();}, close: function close() {this.$refs['popup'].close();}, buttonclick2: function buttonclick2() {this.toggle2('center');}, toggle2: function toggle2(type) {this.type2 = type;this.$refs['popup2'].open();}, close2: function close2() {//发短信接口
-      this.$refs['popup2'].close();uni.showToast({ icon: 'success', title: '发送成功' });} } };exports.default = _default;
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+var uniNavBar = function uniNavBar() {__webpack_require__.e(/*! require.ensure | components/uni-nav-bar/uni-nav-bar */ "components/uni-nav-bar/uni-nav-bar").then((function () {return resolve(__webpack_require__(/*! @/components/uni-nav-bar/uni-nav-bar.vue */ 331));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var listCell = function listCell() {__webpack_require__.e(/*! require.ensure | components/list-cell/list-cell */ "components/list-cell/list-cell").then((function () {return resolve(__webpack_require__(/*! @/components/list-cell/list-cell.vue */ 275));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var modal = function modal() {__webpack_require__.e(/*! require.ensure | components/modal/modal */ "components/modal/modal").then((function () {return resolve(__webpack_require__(/*! @/components/modal/modal.vue */ 338));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default = { components: { uniNavBar: uniNavBar, listCell: listCell, modal: modal }, data: function data() {return { type: 'center', type2: 'center', show1: true, show2: false, array: ['请选择', '1', '2', '3'], index: 0, phone: "", msg: "", cabinet: "1" };}, onLoad: function onLoad() {}, onShow: function onShow() {var _this = this;var i = 1;this.makeMemberCode(i);setInterval(function () {i++;_this.makeMemberCode(i);}, 30000);}, methods: { changephone: function changephone(e) {this.phone = e.detail.value;console.log(this.phone);}, changecabinet: function changecabinet(e) {this.cabinet = e.detail.value;console.log(this.cabinet);}, open: function open() {uni.showLoading({ title: '存餐完毕请关闭柜门！' }); //等待柜门关闭
+      this.$refs['popup'].close();uni.hideLoading();this.close();this.toggle2('center');}, back: function back() {uni.navigateBack();}, bindPickerChange: function bindPickerChange(e) {console.log('picker发送选择改变，携带值为', e.target.value);this.index = e.target.value;}, makeMemberCode: function makeMemberCode(i) {_uqrcode.default.make({ canvasId: 'memberCode', componentInstance: this, text: "memberCode".concat(i), size: uni.upx2px(350), margin: 20, backgroundColor: '#ffffff', foregroundColor: '#000000', fileType: 'jpg', correctLevel: _uqrcode.default.defaults.correctLevel, success: function success(res) {} });}, buttonclick1: function buttonclick1() {var _this2 = this;console.log(123);var that = this;console.log(this.phone);var data = { cabinet_id: this.cabinet, phone: this.phone };(0, _api.makeOrder)(data).then(function (result) {if (result.code == "200") {console.log(result.data);that.cabinet = result.data.cabinetId;that.msg = result.data.doorNum;_this2.toggle('center');} else {that.msg = result.msg;_this2.toggle('center');}});}, toggle: function toggle(type) {this.type = type;this.$refs['popup'].open();}, close: function close() {var _this3 = this;var data = { cabinet_id: this.cabinet, cabinet_doorNum: this.msg };(0, _api.closeCabinetByMan)(data).then(function (result) {if (result.code == "200") {_this3.$refs['popup'].close();}
+      });
+
+    },
+    buttonclick2: function buttonclick2() {
+      this.toggle2('center');
+    },
+    toggle2: function toggle2(type) {
+      this.type2 = type;
+      this.$refs['popup2'].open();
+    },
+    close2: function close2() {var _this4 = this;
+      //发短信接口
+      var data = {
+        cabinet_doorNum: uni.getStorageSync('id'),
+        phone: uni.getStorageSync('userphone') };
+
+      (0, _api.takefoodMessage)(data).then(function (result) {
+        if (result.code == "200") {
+          _this4.$refs['popup2'].close();
+          uni.showToast({
+            icon: 'success',
+            title: '发送成功' });
+
+        } else {
+          _this4.$refs['popup2'].close();
+          uni.showToast({
+            icon: 'error',
+            title: '发送失败' });
+
+        }
+      });
+
+
+    } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ }),

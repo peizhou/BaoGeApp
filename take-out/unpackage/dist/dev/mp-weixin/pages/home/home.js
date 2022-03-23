@@ -93,6 +93,29 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "recyclableRender", function() { return recyclableRender; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "components", function() { return components; });
 var components
+try {
+  components = {
+    uniPopup: function() {
+      return Promise.all(/*! import() | components/uni-popup/uni-popup */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/uni-popup/uni-popup")]).then(__webpack_require__.bind(null, /*! @/components/uni-popup/uni-popup.vue */ 266))
+    }
+  }
+} catch (e) {
+  if (
+    e.message.indexOf("Cannot find module") !== -1 &&
+    e.message.indexOf(".vue") !== -1
+  ) {
+    console.error(e.message)
+    console.error("1. 排查组件名称拼写是否正确")
+    console.error(
+      "2. 排查组件是否符合 easycom 规范，文档：https://uniapp.dcloud.net.cn/collocation/pages?id=easycom"
+    )
+    console.error(
+      "3. 若组件不符合 easycom 规范，需手动引入，并在 components 中注册该组件"
+    )
+  } else {
+    throw e
+  }
+}
 var render = function() {
   var _vm = this
   var _h = _vm.$createElement
@@ -130,80 +153,169 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-var _default =
-{
-  data: function data() {
-    return {
-      swipers: [
-      "http://preview.qiantucdn.com/58pic/39/69/35/11z58PICXw0DJVw758PICdwg58PIC_PIC2018.jpg!qt324_nowater_jpg",
-      "http://preview.qiantucdn.com/ing/62/87/35/90F58PIChxniUinVyJ8X2_PIC2018.jpg!qt324_nowater_jpg",
-      "http://preview.qiantucdn.com/58pic/39/70/82/47058PICm3mXPf5d3J7u3_PIC2018.jpg!qt324_nowater_jpg",
-      "http://preview.qiantucdn.com/58pic/39/69/68/67658PIC695tM600ciW6p_PIC2018.jpg!qt324_nowater_jpg",
-      "http://preview.qiantucdn.com/58pic/40/48/01/33M58PICfW3ctbmQvUh6z_origin_PIC2018.jpg!qt324_nowater_jpg"] };
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;
 
 
-  },
-  methods: {} };exports.default = _default;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var _api = __webpack_require__(/*! ../../api/api.js */ 36); //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+var _default = { data: function data() {return { swipers: ["http://preview.qiantucdn.com/58pic/39/69/35/11z58PICXw0DJVw758PICdwg58PIC_PIC2018.jpg!qt324_nowater_jpg", "http://preview.qiantucdn.com/ing/62/87/35/90F58PIChxniUinVyJ8X2_PIC2018.jpg!qt324_nowater_jpg", "http://preview.qiantucdn.com/58pic/39/70/82/47058PICm3mXPf5d3J7u3_PIC2018.jpg!qt324_nowater_jpg", "http://preview.qiantucdn.com/58pic/39/69/68/67658PIC695tM600ciW6p_PIC2018.jpg!qt324_nowater_jpg", "http://preview.qiantucdn.com/58pic/40/48/01/33M58PICfW3ctbmQvUh6z_origin_PIC2018.jpg!qt324_nowater_jpg"], type2: 'center', userphone: '' };}, onShow: function onShow() {if (!uni.getStorageSync('userphone')) {console.log("???");this.$refs['popup3'].open();}}, methods: { onInput: function onInput(e) {this.userphone = e.detail.value;}, close2: function close2() {uni.setStorageSync('userphone', this.userphone);var data = { userId: uni.getStorageSync("id"), phone: this.userphone };(0, _api.bindUserPhone)(data).then(function (result) {if (result.code == "200") {console.log("good!");}});this.$refs['popup3'].close();} } };exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ }),
 

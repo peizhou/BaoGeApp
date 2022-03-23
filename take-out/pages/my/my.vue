@@ -13,7 +13,7 @@
 			<view class="member-card">
 				<view class="info">
 					<view class="title">
-						<view class="wenyue-font">姓名</view>
+						<view class="wenyue-font">姓名:{{nickname}}</view>
 						<!-- <view class="tips" @tap="openMember">
 							<view>成为星球会员享双倍积分</view>
 							<image src="/static/images/my/icon_arrow.png"></image>
@@ -178,7 +178,8 @@
 		},
 		data() {
 			return {
-				boardcast: []
+				boardcast: [],
+				nickname: 'Mike'
 			}
 		},
 		computed: {
@@ -186,6 +187,10 @@
 		},
 		async onLoad() {
 			this.boardcast = await this.$api('boardcast')
+		},
+		onShow() {
+			if(uni.getStorageSync('nickname') != null)
+				this.nickname = uni.getStorageSync('nickname');
 		},
 		methods: {
 			openLoginPopup() {

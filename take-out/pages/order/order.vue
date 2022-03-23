@@ -44,7 +44,7 @@
 									<view class="order-list">
 										<navigator class="order" v-for="(order, index) in orders" :key="index" open-type="navigate" >
 											<view class="header">
-												<view class="flex-fill font-size-medium">外卖名：{{ order.name }}</view>
+												<view class="flex-fill font-size-medium">外卖名：{{ order.order_Id }}</view>
 												<view class="status">
 													<view>已完成</view>
 													<image src="/static/images/common/black_arrow_right.png"></image>
@@ -57,11 +57,11 @@
 											</scroll-view>
 											<view class="info">
 												<view class="left">
-													<view>编号：{{ order.id }}</view>
-													<view>取出时间：{{ order.time }}</view>
+													<view>编号：{{ order.order_number }}</view>
+													<view>取出时间：{{ order.order_takeFoodTime }}</view>
 												</view>
 												<view class="right">
-													{{ order.num }}号柜
+													{{ order.cabinet_id }}号柜
 												</view>
 											</view>
 											<!-- <view class="action">
@@ -94,6 +94,9 @@
 </template>
 
 <script>
+	import {
+			historyOrder
+		} from '../../api/api.js'
 export default {
 	data() {
 		return {
@@ -101,16 +104,25 @@ export default {
 			orderMenuIndex: 0,
 			orders: [
 				{
-					id: "2346775335797",
-					name: "肯德基套餐",
-					time: "2021-1-1 22:22:22",
-					num: "50"
+					order_Id: "2346775335797",
+					order_number: "肯德基套餐",
+					order_takeFoodTime: "2021-1-1 22:22:22",
+					cabinet_id: "50"
 				}
 			],
 			storeOrders: []
 		}
 	},
 	async onLoad() {
+		let that = this;
+		let data = {
+			userId: uni.getStorageSync("id")
+		}
+		historyOrder(data).then((result) => {
+					if (result.code == "200") {
+						that.orders = result.data;
+					}
+				})
 	},
 	computed: {
 		batchInvoiceVisible() {

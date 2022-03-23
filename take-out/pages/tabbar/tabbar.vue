@@ -32,14 +32,13 @@
 					<view :class="PageCur=='search'?'color_main':'text-gray'">乡村中心</view>
 				</view> -->
 
-				<view class="action" @click="NavChange" data-cur="news">
+				<!-- <view class="action" @click="NavChange" data-cur="news">
 					<view class='cuIcon-cu-image'>
-						<!-- <view class="cu-tag badge">{{message}}</view> -->
 						<image v-if="PageCur=='news'" src="/static/images/tabbar/order_selected.png"></image>
 						<image v-if="PageCur != 'news'" src="/static/images/tabbar/order.png"></image>
 					</view>
 					<view :class="PageCur=='news'?'color_main':'text-gray'">订单</view>
-				</view>
+				</view> -->
 
 				<view class="action" @click="NavChange" data-cur="me">
 					<view class='cuIcon-cu-image'>
@@ -52,7 +51,26 @@
 
 			</view>
 		</view>
-
+		
+		<uni-popup ref="popup3" :type="type2" :animation="true" :maskClick="false" @change="change">
+			<view style="padding: 50px; background-color: #fff;">
+				<view class="code-section" style="">
+					<view style="font-size: 60rpx;">请绑定手机号</view>
+					<input type="number" style="height: 100rpx;
+						background-color: #666666; 
+						color: white;
+						" :value="userphone" @input="onInput"/>
+					<view class="user-form">
+						
+						<button type="primary" style="margin-top: 120rpx; height: 80rpx; width: 300rpx;" @click="close2">确认</button>
+						
+					</view>
+					<view style="height: 60rpx; "></view>
+					<view class="tips">注意：绑定后将不可修改</view>
+				</view>
+			</view>
+		</uni-popup>
+		
 	</view>
 </template>
 
@@ -60,6 +78,9 @@
 	// import {
 	// 	selectUserByAccount
 	// } from '@/apis/user_apis.js'
+	import {
+			bindUserPhone
+		} from '../../api/api.js'
 	import index from "takeouter/stokefood/stokefood";	//首页
 	import search from "pages/index/index";	//技术视频
 	import cases from "pages/mart/mart";	//宅家学
@@ -82,7 +103,11 @@
 				access_token:'',
 				
 				tip:"我是提示",
-				duration:1
+				duration:1,
+				
+				type2: 'center',
+				
+				userphone: ""
 
 			};
 		},
@@ -107,8 +132,36 @@
 				// 	url: "../main_page/main_page"
 				// });
 			}
+			
+			
+
+		},
+		onShow() {
+			if(!uni.getStorageSync('userphone'))
+			{
+				console.log("???")
+				this.$refs['popup3'].open();
+			}
 		},
 		methods: {
+			onInput(e) {this.userphone=e.detail.value},
+			close2() {
+				
+				uni.setStorageSync('userphone',this.userphone);
+				
+				let data = {
+					userId: uni.getStorageSync("id"),
+					phone: this.userphone
+				}
+				bindUserPhone(data).then((result) => {
+								if (result.code == "200") {
+									console.log("good!")
+								}
+							})
+				
+				this.$refs['popup3'].close();
+				
+			},
 			login (that) {
 				uni.showModal({
 					title: '温馨提示',
@@ -219,6 +272,45 @@
 </script>
 
 <style lang="scss">
+	.code-section {
+		flex: 1;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		font-size: $font-size-base;
+		color: $font-size-base;
+		
+		.tips {
+			font-size: $font-size-sm;
+			color: $text-color-assist;
+		}
+	}
+	.user-form {
+		.form-item {
+			width: 100%;
+			display: flex;
+			align-items: center;
+			
+			.label {
+				width: 160rpx;
+			}
+			
+			input {
+				flex: 1;
+			}
+			
+			.radio {
+				display: flex;
+				margin-right: 50rpx;
+				image {
+					width: 40rpx;
+					height: 40rpx;
+					margin-right: 20rpx;
+				}
+			}
+		}
+	}
 	.box .cu-bar {
 		display: flex;
 		z-index: 1000;

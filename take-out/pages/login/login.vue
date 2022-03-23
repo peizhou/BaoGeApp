@@ -96,6 +96,12 @@
 				
 			},
 			wxLogin() {
+				if(uni.getStorageSync('token'))
+				{
+					console.log(uni.getStorageSync('token'));
+					return;
+				}
+				
 				let _this = this;
 				console.log("wxLogin");
 				wx.login({
@@ -106,6 +112,7 @@
 							}
 							accessTemporaryCode(data).then((result) => {
 								if (result.code == "200") {
+									console.log(result.data.sessionId)
 									_this.sessionId = result.data.sessionId;
 								}
 							})
@@ -114,6 +121,7 @@
 				})
 			},
 			wxAuthLogin(){
+				
 				let _this = this;
 				if(_this.sessionId != ""){
 					uni.getUserProfile({
@@ -122,12 +130,15 @@
 							//调用接口获取登录凭证（code）。通过凭证进而换取用户登录态信息，包括用户在当前小程序的唯一标识（openid）
 							if (infoRes.errMsg === 'getUserProfile:ok') {
 								// 获取到的当前数据存入缓存
+								console.log(infoRes.encryptedData);
+								console.log(infoRes.iv);
 								let authData = {
 									encryptedData: infoRes.encryptedData,
 									iv: infoRes.iv,
 									sessionId: _this.sessionId
 								}
 								authLogin(authData).then((secondRes) => {
+									console.log(secondRes.data.token);
 									if (secondRes.code == "200") {
 										console.log('uni.getUserProfile',infoRes)
 										uni.setStorageSync('encryptedData',infoRes.encryptedData);
@@ -137,9 +148,10 @@
 										uni.setStorageSync('securityStatus', 1);
 										uni.setStorageSync('userInfo',infoRes.userInfo);
 										uni.setStorageSync('mainPage',1);
-										uni.setStorageSync('news', "");
-										uni.setStorageSync('bus_route',"");
-										uni.setStorageSync('market_goods', "-1");
+										uni.setStorageSync('token', secondRes.data.token);
+										uni.setStorageSync('id',secondRes.data.id);
+										uni.setStorageSync('nickname', secondRes.data.nickname);
+										console.log(secondRes.data.token);
 									}
 								})
 							} else {

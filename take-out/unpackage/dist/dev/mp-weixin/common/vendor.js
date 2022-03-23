@@ -941,7 +941,7 @@ function initData(vueOptions, context) {
     try {
       data = data.call(context); // 支持 Vue.prototype 上挂的数据
     } catch (e) {
-      if (Object({"NODE_ENV":"development","VUE_APP_NAME":"take-out","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
+      if (Object({"VUE_APP_NAME":"takeout","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
         console.warn('根据 Vue 的 data 函数初始化小程序 data 失败，请尽量确保 data 函数中不访问 vm 对象，否则可能影响首次数据渲染速度。', data);
       }
     }
@@ -12683,6 +12683,72 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 
 /***/ }),
 
+/***/ 271:
+/*!***************************************************************************!*\
+  !*** D:/uni-appWorkSpace/take-out/take-out/components/uni-popup/popup.js ***!
+  \***************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _message = _interopRequireDefault(__webpack_require__(/*! ./message.js */ 272));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+// 定义 type 类型:弹出类型：top/bottom/center
+var config = {
+  // 顶部弹出
+  top: 'top',
+  // 底部弹出
+  bottom: 'bottom',
+  // 居中弹出
+  center: 'center',
+  // 消息提示
+  message: 'top',
+  // 对话框
+  dialog: 'center',
+  // 分享
+  share: 'bottom' };var _default =
+
+
+{
+  data: function data() {
+    return {
+      config: config };
+
+  },
+  mixins: [_message.default] };exports.default = _default;
+
+/***/ }),
+
+/***/ 272:
+/*!*****************************************************************************!*\
+  !*** D:/uni-appWorkSpace/take-out/take-out/components/uni-popup/message.js ***!
+  \*****************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _default = {
+  created: function created() {
+    if (this.type === 'message') {
+      // 不显示遮罩
+      this.maskShow = false;
+      // 获取子组件对象
+      this.childrenMsg = null;
+    }
+  },
+  methods: {
+    customOpen: function customOpen() {
+      if (this.childrenMsg) {
+        this.childrenMsg.open();
+      }
+    },
+    customClose: function customClose() {
+      if (this.childrenMsg) {
+        this.childrenMsg.close();
+      }
+    } } };exports.default = _default;
+
+/***/ }),
+
 /***/ 28:
 /*!**************************************************************!*\
   !*** D:/uni-appWorkSpace/take-out/take-out/api/giftCards.js ***!
@@ -20503,7 +20569,7 @@ function type(obj) {
 
 function flushCallbacks$1(vm) {
     if (vm.__next_tick_callbacks && vm.__next_tick_callbacks.length) {
-        if (Object({"NODE_ENV":"development","VUE_APP_NAME":"take-out","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
+        if (Object({"VUE_APP_NAME":"takeout","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
             var mpInstance = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
                 ']:flushCallbacks[' + vm.__next_tick_callbacks.length + ']');
@@ -20524,14 +20590,14 @@ function nextTick$1(vm, cb) {
     //1.nextTick 之前 已 setData 且 setData 还未回调完成
     //2.nextTick 之前存在 render watcher
     if (!vm.__next_tick_pending && !hasRenderWatcher(vm)) {
-        if(Object({"NODE_ENV":"development","VUE_APP_NAME":"take-out","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
+        if(Object({"VUE_APP_NAME":"takeout","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG){
             var mpInstance = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
                 ']:nextVueTick');
         }
         return nextTick(cb, vm)
     }else{
-        if(Object({"NODE_ENV":"development","VUE_APP_NAME":"take-out","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
+        if(Object({"VUE_APP_NAME":"takeout","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG){
             var mpInstance$1 = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance$1.is || mpInstance$1.route) + '][' + vm._uid +
                 ']:nextMPTick');
@@ -20617,7 +20683,7 @@ var patch = function(oldVnode, vnode) {
     });
     var diffData = this.$shouldDiffData === false ? data : diff(data, mpData);
     if (Object.keys(diffData).length) {
-      if (Object({"NODE_ENV":"development","VUE_APP_NAME":"take-out","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
+      if (Object({"VUE_APP_NAME":"takeout","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
         console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + this._uid +
           ']差量更新',
           JSON.stringify(diffData));
@@ -21025,7 +21091,7 @@ internalMixin(Vue);
 
 /***/ }),
 
-/***/ 341:
+/***/ 350:
 /*!****************************************************************************************!*\
   !*** D:/uni-appWorkSpace/take-out/take-out/components/jyf-parser/libs/MpHtmlParser.js ***!
   \****************************************************************************************/
@@ -21039,9 +21105,9 @@ internalMixin(Vue);
  * @author JinYufeng
  * @listens MIT
  */
-var cfg = __webpack_require__(/*! ./config.js */ 342),
+var cfg = __webpack_require__(/*! ./config.js */ 351),
 blankChar = cfg.blankChar,
-CssHandler = __webpack_require__(/*! ./CssHandler.js */ 343),
+CssHandler = __webpack_require__(/*! ./CssHandler.js */ 352),
 windowWidth = uni.getSystemInfoSync().windowWidth;
 var emoji;
 
@@ -21577,7 +21643,7 @@ module.exports = MpHtmlParser;
 
 /***/ }),
 
-/***/ 342:
+/***/ 351:
 /*!**********************************************************************************!*\
   !*** D:/uni-appWorkSpace/take-out/take-out/components/jyf-parser/libs/config.js ***!
   \**********************************************************************************/
@@ -21685,14 +21751,14 @@ function makeMap(str) {
 
 /***/ }),
 
-/***/ 343:
+/***/ 352:
 /*!**************************************************************************************!*\
   !*** D:/uni-appWorkSpace/take-out/take-out/components/jyf-parser/libs/CssHandler.js ***!
   \**************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-var cfg = __webpack_require__(/*! ./config.js */ 342),
+var cfg = __webpack_require__(/*! ./config.js */ 351),
 isLetter = function isLetter(c) {return c >= 'a' && c <= 'z' || c >= 'A' && c <= 'Z';};
 
 function CssHandler(tagStyle) {
@@ -21792,72 +21858,6 @@ parser.prototype.Content = function () {
 
 /***/ }),
 
-/***/ 358:
-/*!***************************************************************************!*\
-  !*** D:/uni-appWorkSpace/take-out/take-out/components/uni-popup/popup.js ***!
-  \***************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _message = _interopRequireDefault(__webpack_require__(/*! ./message.js */ 359));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-// 定义 type 类型:弹出类型：top/bottom/center
-var config = {
-  // 顶部弹出
-  top: 'top',
-  // 底部弹出
-  bottom: 'bottom',
-  // 居中弹出
-  center: 'center',
-  // 消息提示
-  message: 'top',
-  // 对话框
-  dialog: 'center',
-  // 分享
-  share: 'bottom' };var _default =
-
-
-{
-  data: function data() {
-    return {
-      config: config };
-
-  },
-  mixins: [_message.default] };exports.default = _default;
-
-/***/ }),
-
-/***/ 359:
-/*!*****************************************************************************!*\
-  !*** D:/uni-appWorkSpace/take-out/take-out/components/uni-popup/message.js ***!
-  \*****************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _default = {
-  created: function created() {
-    if (this.type === 'message') {
-      // 不显示遮罩
-      this.maskShow = false;
-      // 获取子组件对象
-      this.childrenMsg = null;
-    }
-  },
-  methods: {
-    customOpen: function customOpen() {
-      if (this.childrenMsg) {
-        this.childrenMsg.open();
-      }
-    },
-    customClose: function customClose() {
-      if (this.childrenMsg) {
-        this.childrenMsg.close();
-      }
-    } } };exports.default = _default;
-
-/***/ }),
-
 /***/ 36:
 /*!********************************************************!*\
   !*** D:/uni-appWorkSpace/take-out/take-out/api/api.js ***!
@@ -21866,7 +21866,7 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.accessTemporaryCode = accessTemporaryCode;exports.authLogin = authLogin;var _config = __webpack_require__(/*! ../common/config.js */ 37);
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.accessTemporaryCode = accessTemporaryCode;exports.authLogin = authLogin;exports.makeOrder = makeOrder;exports.closeCabinetByMan = closeCabinetByMan;exports.takeFoodByCustomer = takeFoodByCustomer;exports.closeDoorByCustomer = closeDoorByCustomer;exports.takefoodMessage = takefoodMessage;exports.bindUserPhone = bindUserPhone;exports.historyOrder = historyOrder;var _config = __webpack_require__(/*! ../common/config.js */ 37);
 //通过 wx.login 接口获得临时登录凭证 code 后传到开发者服务器调用此接口完成登录流程
 function accessTemporaryCode(data) {
   return new Promise(function (reslove, reject) {
@@ -21901,6 +21901,153 @@ function authLogin(data) {
 
   });
 }
+
+function makeOrder(data) {
+  return new Promise(function (reslove, reject) {
+    var token = uni.getStorageSync('token');
+    uni.request({
+      url: "".concat(_config.baseUrl, "/order/makeOrder"),
+      method: 'POST',
+      data: data,
+      header: {
+        "authorization": token },
+
+      success: function success(res) {
+        var result = res;
+        console.log('外卖员输入用户手机号，生成订单信息', result.data);
+        reslove(result.data);
+      },
+      fail: function fail() {},
+      complete: function complete() {} });
+
+  });
+}
+
+function closeCabinetByMan(data) {
+  return new Promise(function (reslove, reject) {
+    var token = uni.getStorageSync('token');
+    uni.request({
+      url: "".concat(_config.baseUrl, "/order/closeCabinetByMan"),
+      method: 'POST',
+      data: data,
+      header: {
+        "authorization": token },
+
+      success: function success(res) {
+        var result = res;
+        console.log('获取到哪个柜门关闭，外卖员关闭柜门', result.data);
+        reslove(result.data);
+      },
+      fail: function fail() {},
+      complete: function complete() {} });
+
+  });
+}
+
+function takeFoodByCustomer(data) {
+  return new Promise(function (reslove, reject) {
+    var token = uni.getStorageSync('token');
+    uni.request({
+      url: "".concat(_config.baseUrl, "/order/takeFoodByCustomer"),
+      method: 'POST',
+      data: data,
+      header: {
+        "authorization": token },
+
+      success: function success(res) {
+        var result = res;
+        console.log('获取用户外卖的柜门集合', result.data);
+        reslove(result.data);
+      },
+      fail: function fail() {},
+      complete: function complete() {} });
+
+  });
+}
+
+function closeDoorByCustomer(data) {
+  return new Promise(function (reslove, reject) {
+    var token = uni.getStorageSync('token');
+    uni.request({
+      url: "".concat(_config.baseUrl, "/order/closeDoorByCustomer"),
+      method: 'POST',
+      data: data,
+      header: {
+        "authorization": token },
+
+      success: function success(res) {
+        var result = res;
+        console.log('顾客关闭外卖柜门，订单结束', result.data);
+        reslove(result.data);
+      },
+      fail: function fail() {},
+      complete: function complete() {} });
+
+  });
+}
+
+function takefoodMessage(data) {
+  return new Promise(function (reslove, reject) {
+    var token = uni.getStorageSync('token');
+    uni.request({
+      url: "".concat(_config.baseUrl, "/sms/takeFood"),
+      method: 'POST',
+      data: data,
+      header: {
+        "authorization": token },
+
+      success: function success(res) {
+        var result = res;
+        console.log('发短信', result.data);
+        reslove(result.data);
+      },
+      fail: function fail() {},
+      complete: function complete() {} });
+
+  });
+}
+
+function bindUserPhone(data) {
+  return new Promise(function (reslove, reject) {
+    var token = uni.getStorageSync('token');
+    uni.request({
+      url: "".concat(_config.baseUrl, "/user/bindUserPhone"),
+      method: 'POST',
+      data: data,
+      header: {
+        "authorization": token },
+
+      success: function success(res) {
+        var result = res;
+        console.log('绑定手机号码', result.data);
+        reslove(result.data);
+      },
+      fail: function fail() {},
+      complete: function complete() {} });
+
+  });
+}
+
+function historyOrder(data) {
+  return new Promise(function (reslove, reject) {
+    var token = uni.getStorageSync('token');
+    uni.request({
+      url: "".concat(_config.baseUrl, "/order/historyOrder"),
+      method: 'POST',
+      data: data,
+      header: {
+        "authorization": token },
+
+      success: function success(res) {
+        var result = res;
+        console.log('历史订单', result.data);
+        reslove(result.data);
+      },
+      fail: function fail() {},
+      complete: function complete() {} });
+
+  });
+}
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ }),
@@ -21913,7 +22060,7 @@ function authLogin(data) {
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.baseUrl = void 0;var baseUrl = "http://8.136.81.47:8081/";exports.baseUrl = baseUrl;
+Object.defineProperty(exports, "__esModule", { value: true });exports.baseUrl = void 0;var baseUrl = "http://8.136.81.47:8081";exports.baseUrl = baseUrl;
 
 /***/ }),
 

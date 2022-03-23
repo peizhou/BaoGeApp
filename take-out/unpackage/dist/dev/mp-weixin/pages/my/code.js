@@ -96,7 +96,7 @@ var components
 try {
   components = {
     uniNavBar: function() {
-      return __webpack_require__.e(/*! import() | components/uni-nav-bar/uni-nav-bar */ "components/uni-nav-bar/uni-nav-bar").then(__webpack_require__.bind(null, /*! @/components/uni-nav-bar/uni-nav-bar.vue */ 322))
+      return __webpack_require__.e(/*! import() | components/uni-nav-bar/uni-nav-bar */ "components/uni-nav-bar/uni-nav-bar").then(__webpack_require__.bind(null, /*! @/components/uni-nav-bar/uni-nav-bar.vue */ 331))
     }
   }
 } catch (e) {
@@ -196,7 +196,7 @@ var _uqrcode = _interopRequireDefault(__webpack_require__(/*! @/common/uqrcode *
 //
 //
 //
-var uniNavBar = function uniNavBar() {__webpack_require__.e(/*! require.ensure | components/uni-nav-bar/uni-nav-bar */ "components/uni-nav-bar/uni-nav-bar").then((function () {return resolve(__webpack_require__(/*! @/components/uni-nav-bar/uni-nav-bar.vue */ 322));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default = { components: { uniNavBar: uniNavBar }, data: function data() {return {};}, onShow: function onShow() {var _this = this;var i = 1;this.makeMemberCode(i);setInterval(function () {i++;_this.makeMemberCode(i);}, 30000);}, methods: {
+var uniNavBar = function uniNavBar() {__webpack_require__.e(/*! require.ensure | components/uni-nav-bar/uni-nav-bar */ "components/uni-nav-bar/uni-nav-bar").then((function () {return resolve(__webpack_require__(/*! @/components/uni-nav-bar/uni-nav-bar.vue */ 331));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default = { components: { uniNavBar: uniNavBar }, data: function data() {return {};}, onShow: function onShow() {var _this = this;var i = 1;this.makeMemberCode(i);setInterval(function () {i++;_this.makeMemberCode(i);}, 30000);}, methods: {
     back: function back() {
       uni.navigateBack();
     },

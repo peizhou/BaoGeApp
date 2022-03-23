@@ -98,10 +98,10 @@ var components
 try {
   components = {
     uniNavBar: function() {
-      return __webpack_require__.e(/*! import() | components/uni-nav-bar/uni-nav-bar */ "components/uni-nav-bar/uni-nav-bar").then(__webpack_require__.bind(null, /*! @/components/uni-nav-bar/uni-nav-bar.vue */ 322))
+      return __webpack_require__.e(/*! import() | components/uni-nav-bar/uni-nav-bar */ "components/uni-nav-bar/uni-nav-bar").then(__webpack_require__.bind(null, /*! @/components/uni-nav-bar/uni-nav-bar.vue */ 331))
     },
     uniPopup: function() {
-      return Promise.all(/*! import() | components/uni-popup/uni-popup */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/uni-popup/uni-popup")]).then(__webpack_require__.bind(null, /*! @/components/uni-popup/uni-popup.vue */ 353))
+      return Promise.all(/*! import() | components/uni-popup/uni-popup */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/uni-popup/uni-popup")]).then(__webpack_require__.bind(null, /*! @/components/uni-popup/uni-popup.vue */ 266))
     }
   }
 } catch (e) {
@@ -257,6 +257,15 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
+
+var _api = __webpack_require__(/*! ../../api/api.js */ 36);
+
+
+
 var _uqrcode = _interopRequireDefault(__webpack_require__(/*! @/common/uqrcode */ 119));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} //
 //
 //
@@ -355,8 +364,54 @@ var _uqrcode = _interopRequireDefault(__webpack_require__(/*! @/common/uqrcode *
 //
 //
 //
-var uniNavBar = function uniNavBar() {__webpack_require__.e(/*! require.ensure | components/uni-nav-bar/uni-nav-bar */ "components/uni-nav-bar/uni-nav-bar").then((function () {return resolve(__webpack_require__(/*! @/components/uni-nav-bar/uni-nav-bar.vue */ 322));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var listCell = function listCell() {__webpack_require__.e(/*! require.ensure | components/list-cell/list-cell */ "components/list-cell/list-cell").then((function () {return resolve(__webpack_require__(/*! @/components/list-cell/list-cell.vue */ 266));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var modal = function modal() {__webpack_require__.e(/*! require.ensure | components/modal/modal */ "components/modal/modal").then((function () {return resolve(__webpack_require__(/*! @/components/modal/modal.vue */ 329));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default = { components: { uniNavBar: uniNavBar, listCell: listCell, modal: modal }, data: function data() {return { type: 'top', type2: 'top', show1: true, show2: false };}, onShow: function onShow() {var _this = this;var i = 1;this.makeMemberCode(i);setInterval(function () {i++;_this.makeMemberCode(i);}, 30000);}, methods: { back: function back() {uni.navigateBack();}, makeMemberCode: function makeMemberCode(i) {_uqrcode.default.make({ canvasId: 'memberCode', componentInstance: this, text: "memberCode".concat(i), size: uni.upx2px(350), margin: 20, backgroundColor: '#ffffff', foregroundColor: '#000000', fileType: 'jpg', correctLevel: _uqrcode.default.defaults.correctLevel, success: function success(res) {} });}, buttonclick1: function buttonclick1() {console.log(123);var test = 2;if (test == 1) {//("接口回传数据是--》只有一个外卖"
-        this.toggle('center');} else if (test == 2) {uni.showToast({ icon: 'error', title: '您有多个外卖取件，请输入完整手机号再取餐' });this.show1 = false;this.show2 = true;}}, toggle: function toggle(type) {this.type = type;this.$refs['popup'].open();}, close: function close() {this.$refs['popup'].close();}, buttonclick2: function buttonclick2() {this.toggle2('center');}, toggle2: function toggle2(type) {this.type2 = type;this.$refs['popup2'].open();}, close2: function close2() {this.$refs['popup2'].close();} } };exports.default = _default;
+//
+//
+//
+//
+//
+var uniNavBar = function uniNavBar() {__webpack_require__.e(/*! require.ensure | components/uni-nav-bar/uni-nav-bar */ "components/uni-nav-bar/uni-nav-bar").then((function () {return resolve(__webpack_require__(/*! @/components/uni-nav-bar/uni-nav-bar.vue */ 331));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var listCell = function listCell() {__webpack_require__.e(/*! require.ensure | components/list-cell/list-cell */ "components/list-cell/list-cell").then((function () {return resolve(__webpack_require__(/*! @/components/list-cell/list-cell.vue */ 275));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var modal = function modal() {__webpack_require__.e(/*! require.ensure | components/modal/modal */ "components/modal/modal").then((function () {return resolve(__webpack_require__(/*! @/components/modal/modal.vue */ 338));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default = { components: { uniNavBar: uniNavBar, listCell: listCell, modal: modal }, data: function data() {return { type: 'top', type2: 'top', show1: true, show2: false, array: [], index: 0, data: [], cab: "", ord: "", phone1: "" };}, onShow: function onShow() {var _this = this;var i = 1;this.makeMemberCode(i);setInterval(function () {i++;_this.makeMemberCode(i);}, 30000);}, methods: { inputphone1: function inputphone1(event) {this.phone1 = event.detail.value;}, bindPickerChange: function bindPickerChange(e) {console.log('picker发送选择改变，携带值为', e.target.value);this.index = e.target.value;}, back: function back() {uni.navigateBack();}, makeMemberCode: function makeMemberCode(i) {_uqrcode.default.make({ canvasId: 'memberCode', componentInstance: this, text: "memberCode".concat(i), size: uni.upx2px(350), margin: 20, backgroundColor: '#ffffff', foregroundColor: '#000000', fileType: 'jpg', correctLevel: _uqrcode.default.defaults.correctLevel, success: function success(res) {} });}, buttonclick1: function buttonclick1() {var that = this;console.log(that.phone1);if (uni.getStorageSync("userphone").substr(uni.getStorageSync("userphone").length - 4) != that.phone1) {console.log(uni.getStorageSync("userphone").substr(uni.getStorageSync("userphone").length - 4));return;}var data = { phone: uni.getStorageSync("userphone") };(0, _api.takeFoodByCustomer)(data).then(function (result) {if (result.code == "200") {console.log(result);that.data = result.data;if (that.data) {if (that.data.length == 1) {that.toggle('center');console.log(that.data[0].cabinet_id);that.cab = that.data[0].cabinet_id;that.ord = that.data[0].order_doorNum;} else {uni.showToast({ icon: 'error', title: '您有多个外卖取件，请输入完整手机号再取餐' });that.show1 = false;that.show2 = true;}}}});}, toggle: function toggle(type) {this.type = type;this.$refs['popup'].open();}, close: function close() {this.$refs['popup'].close();}, buttonclick2: function buttonclick2() {var that = this;
+      this.toggle2('center');
+      for (var i = 0; i < that.data.length; ++i) {
+        that.array[i] = that.data[i].cabinet_id + "--" + that.data[i].order_doorNum;
+      }
+
+    },
+    toggle2: function toggle2(type) {
+      this.type2 = type;
+      this.$refs['popup2'].open();
+    },
+    close2: function close2() {var _this2 = this;
+      var that = this;
+      console.log(this.data[this.index].cabinet_id);
+      console.log(this.data[this.index].order_doorNum);
+      var data = {
+        cabinet_id: this.data[this.index].cabinet_id,
+        cabinet_doorNum: this.data[this.index].order_doorNum };
+
+      (0, _api.closeDoorByCustomer)(data).then(function (result) {
+        if (result.code == "200") {
+          console.log("success");
+          that.array.splice(that.index, 1);
+          that.data.splice(that.index, 1);
+          that.index = 0;
+
+          _this2.$refs['popup2'].close();
+          uni.showToast({
+            icon: 'success',
+            title: '取餐完毕请关闭柜门！' });
+
+
+          console.log(_this2.array.length);
+          if (_this2.array.length < 1) {
+            console.log("<");
+            uni.navigateBack({
+              delta: 1 });
+
+          }
+        }
+      });
+
+    } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ }),

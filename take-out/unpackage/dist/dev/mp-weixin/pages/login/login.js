@@ -255,11 +255,22 @@ var _api = __webpack_require__(/*! ../../api/api.js */ 36); //
 //
 //
 //
-var _default = { onLoad: function onLoad() {this.wxLogin();}, data: function data() {return { swipers: ["https://pic.imgdb.cn/item/620a65de2ab3f51d91f2ca6a.jpg"], sessionId: "" };}, methods: { Login: function Login(type) {if (type == 1) {console.log("1");this.wxAuthLogin();uni.switchTab({ url: "../home/home" });} else {console.log("2");this.wxAuthLogin();uni.redirectTo({ url: "../tabbar/tabbar" });}}, wxLogin: function wxLogin() {var _this = this;console.log("wxLogin");wx.login({ success: function success(res) {if (res.code) {var data = { code: res.code };(0, _api.accessTemporaryCode)(data).then(function (result) {if (result.code == "200") {_this.sessionId = result.data.sessionId;}});}} });}, wxAuthLogin: function wxAuthLogin() {var _this = this;if (_this.sessionId != "") {uni.getUserProfile({ desc: '获取你的名称、头像、地区', success: function success(infoRes) {//调用接口获取登录凭证（code）。通过凭证进而换取用户登录态信息，包括用户在当前小程序的唯一标识（openid）
-            if (infoRes.errMsg === 'getUserProfile:ok') {// 获取到的当前数据存入缓存
-              var authData = { encryptedData: infoRes.encryptedData, iv: infoRes.iv, sessionId: _this.sessionId };
+var _default = { onLoad: function onLoad() {this.wxLogin();}, data: function data() {return { swipers: ["https://pic.imgdb.cn/item/620a65de2ab3f51d91f2ca6a.jpg"], sessionId: "" };}, methods: { Login: function Login(type) {if (type == 1) {console.log("1");this.wxAuthLogin();uni.switchTab({ url: "../home/home" });} else {console.log("2");this.wxAuthLogin();uni.redirectTo({ url: "../tabbar/tabbar" });}}, wxLogin: function wxLogin() {if (uni.getStorageSync('token')) {console.log(uni.getStorageSync('token'));return;}var _this = this;console.log("wxLogin");wx.login({ success: function success(res) {if (res.code) {var data = { code: res.code };(0, _api.accessTemporaryCode)(data).then(function (result) {if (result.code == "200") {console.log(result.data.sessionId);_this.sessionId = result.data.sessionId;}});}} });}, wxAuthLogin: function wxAuthLogin() {var _this = this;if (_this.sessionId != "") {
+        uni.getUserProfile({
+          desc: '获取你的名称、头像、地区',
+          success: function success(infoRes) {
+            //调用接口获取登录凭证（code）。通过凭证进而换取用户登录态信息，包括用户在当前小程序的唯一标识（openid）
+            if (infoRes.errMsg === 'getUserProfile:ok') {
+              // 获取到的当前数据存入缓存
+              console.log(infoRes.encryptedData);
+              console.log(infoRes.iv);
+              var authData = {
+                encryptedData: infoRes.encryptedData,
+                iv: infoRes.iv,
+                sessionId: _this.sessionId };
 
               (0, _api.authLogin)(authData).then(function (secondRes) {
+                console.log(secondRes.data.token);
                 if (secondRes.code == "200") {
                   console.log('uni.getUserProfile', infoRes);
                   uni.setStorageSync('encryptedData', infoRes.encryptedData);
@@ -269,9 +280,10 @@ var _default = { onLoad: function onLoad() {this.wxLogin();}, data: function dat
                   uni.setStorageSync('securityStatus', 1);
                   uni.setStorageSync('userInfo', infoRes.userInfo);
                   uni.setStorageSync('mainPage', 1);
-                  uni.setStorageSync('news', "");
-                  uni.setStorageSync('bus_route', "");
-                  uni.setStorageSync('market_goods', "-1");
+                  uni.setStorageSync('token', secondRes.data.token);
+                  uni.setStorageSync('id', secondRes.data.id);
+                  uni.setStorageSync('nickname', secondRes.data.nickname);
+                  console.log(secondRes.data.token);
                 }
               });
             } else {

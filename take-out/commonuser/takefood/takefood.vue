@@ -22,7 +22,7 @@
 						<input type="number" style="height: 100rpx;
 							background-color: #666666; 
 							color: white;
-							" />
+							" :value="phone1" @input="inputphone1"/>
 						
 					</view>
 					
@@ -63,8 +63,8 @@
 			<uni-popup ref="popup" :type="type" :animation="true" :maskClick="false" @change="change">
 				<view style="padding: 50px; background-color: #fff;">
 					<view class="code-section" style="">
-						<view style="font-size: 60rpx;">外卖柜号</view>
-						<view style="font-size: 80rpx; font-weight: bold;">15</view>
+						<view style="font-size: 60rpx;">外卖柜号 格号</view>
+						<view style="font-size: 80rpx; font-weight: bold;">{{cab}}柜 {{ord}}格</view>
 						<view class="user-form">
 							
 							<button type="primary" style="margin-top: 120rpx; height: 80rpx; width: 300rpx;" @click="close">确认</button>
@@ -80,7 +80,12 @@
 				<view style="padding: 50px; background-color: #fff;">
 					<view class="code-section" style="">
 						<view style="font-size: 60rpx;">外卖柜号</view>
-						<view style="font-size: 80rpx; font-weight: bold;">15</view>
+						<!-- <view style="font-size: 80rpx; font-weight: bold;">15</view> -->
+						<picker style="z-index: 20000; height: 100rpx;
+						background-color: #666666; 
+						color: white; width: 300rpx;" @change="bindPickerChange" :value="index" :range="array">
+						    <view class="uni-input" style="text-align: center;font-size: 60rpx;">{{array[index]}}</view>
+						</picker>
 						<view class="user-form">
 							
 							<button type="primary" style="margin-top: 120rpx; height: 80rpx; width: 300rpx;" @click="close2">确认</button>
@@ -97,6 +102,10 @@
 </template>
 
 <script>
+	import {
+			closeDoorByCustomer,
+			takeFoodByCustomer
+		} from '../../api/api.js'
 	import uQRCode from '@/common/uqrcode'
 	import uniNavBar from '@/components/uni-nav-bar/uni-nav-bar.vue'
 	import listCell from '@/components/list-cell/list-cell.vue'
@@ -113,7 +122,13 @@
 				type: 'top',
 				type2: 'top',
 				show1: true,
-				show2: false
+				show2: false,
+				array: [],
+				index: 0,
+				data: [],
+				cab: "",
+				ord: "",
+				phone1: "",
 			}
 		},
 		onShow() {
@@ -126,6 +141,13 @@
 			}, 30000)
 		},
 		methods: {
+			inputphone1(event) {
+				this.phone1 = event.detail.value;
+			},
+			bindPickerChange: function(e) {
+			            console.log('picker发送选择改变，携带值为', e.target.value)
+			            this.index = e.target.value
+			},
 			back() {
 				uni.navigateBack()
 			},
@@ -145,19 +167,38 @@
 				})
 			},
 			buttonclick1() {
-				console.log(123);
-				let test = 2;
-				if (test == 1) {//("接口回传数据是--》只有一个外卖"
-					this.toggle('center');
-				} else if(test == 2) {
-					uni.showToast({
-						icon:'error',
-						title:'您有多个外卖取件，请输入完整手机号再取餐'
-					})
-					this.show1 = false;
-					this.show2 = true;
-					
+				var that = this;
+				console.log(that.phone1);
+				if(uni.getStorageSync("userphone").substr(uni.getStorageSync("userphone").length-4) != that.phone1) {
+					console.log(uni.getStorageSync("userphone").substr(uni.getStorageSync("userphone").length-4));
+					return;
 				}
+				let data = {
+					phone: uni.getStorageSync("userphone")
+				}
+				takeFoodByCustomer(data).then((result) => {
+					if (result.code == "200") {
+						console.log(result);
+						that.data = result.data;
+						if(that.data) {
+							if(that.data.length == 1) {
+								that.toggle('center');
+								console.log(that.data[0].cabinet_id);
+								that.cab = that.data[0].cabinet_id;
+								that.ord = that.data[0].order_doorNum;
+							}
+							else {
+								uni.showToast({
+									icon:'error',
+									title:'您有多个外卖取件，请输入完整手机号再取餐'
+								})
+								that.show1 = false;
+								that.show2 = true;
+							}
+						}
+					}
+				})
+				
 			},
 			
 			toggle(type) {
@@ -168,14 +209,48 @@
 				this.$refs['popup'].close();
 			},
 			buttonclick2() {
+				let that = this;
 				this.toggle2('center');
+				for(var i=0;i<that.data.length;++i) {
+					that.array[i] = that.data[i].cabinet_id + "--" + that.data[i].order_doorNum;
+				}
+				
 			},
 			toggle2(type) {
 						this.type2 = type;
 						this.$refs['popup2'].open();
 			},
 			close2() {
-				this.$refs['popup2'].close();
+				let that = this;
+				console.log(this.data[this.index].cabinet_id);
+				console.log(this.data[this.index].order_doorNum);
+				let data = {
+					cabinet_id: this.data[this.index].cabinet_id,
+					cabinet_doorNum: this.data[this.index].order_doorNum
+				}
+				closeDoorByCustomer(data).then((result) => {
+					if (result.code == "200") {
+						console.log("success");
+						that.array.splice(that.index,1);
+						that.data.splice(that.index,1);
+						that.index = 0;
+						
+						this.$refs['popup2'].close();
+						uni.showToast({
+							icon:'success',
+							title:'取餐完毕请关闭柜门！'
+						})
+						
+						console.log(this.array.length);
+						if(this.array.length < 1) {
+							console.log("<")
+							uni.navigateBack({
+								delta: 1
+							});
+						}
+					}
+				})
+				
 			},
 		}
 	}

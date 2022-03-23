@@ -1125,6 +1125,39 @@ page.data-v-6eb5e5d4 {
 /* 垂直间距 */
 /* 透明度 */
 /* 文章场景相关 */
+.code-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 26rpx;
+  color: 26rpx;
+}
+.code-section .tips {
+  font-size: 24rpx;
+  color: #999;
+}
+.user-form .form-item {
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+.user-form .form-item .label {
+  width: 160rpx;
+}
+.user-form .form-item input {
+  flex: 1;
+}
+.user-form .form-item .radio {
+  display: flex;
+  margin-right: 50rpx;
+}
+.user-form .form-item .radio image {
+  width: 40rpx;
+  height: 40rpx;
+  margin-right: 20rpx;
+}
 .box .cu-bar {
   display: flex;
   z-index: 1000;
